@@ -8,9 +8,15 @@ export const DAY = Object.freeze({
     "FRIDAY": 5,
     "SATURDAY": 6,
     "SUNDAY": 7,
+    "WORKDAYS": [1, 2, 3, 4, 5],
+    "WEEKEND": [6, 7],
 })
 
 export class SchedulerBuilder {
+    constructor() {
+        this.day = []
+        this.and = this
+    }
 
     from(from) {
         this.from = moment(from).utc().startOf('day')
@@ -23,7 +29,12 @@ export class SchedulerBuilder {
     }
 
     every(day) {
-        this.day = day
+        if (Array.isArray(day)) { // for WORKDAYS
+            this.day = this.day.concat(day)
+        } else {
+            this.day.push(day)
+        }
+
         return this
     }
 
@@ -32,8 +43,8 @@ export class SchedulerBuilder {
         return this
     }
 
-    _getNextFromIoWeekday() {
-        const isoWeekdayToFind = moment().day(this.day).isoWeekday()
+    _getNextFromIoWeekday(day) {
+        const isoWeekdayToFind = moment().day(day).isoWeekday()
         const next = this.from.clone()
         while (isoWeekdayToFind !== next.isoWeekday()) {
             next.add(1, 'day')
@@ -41,8 +52,8 @@ export class SchedulerBuilder {
         return next
     }
 
-    _getRepeat() {
-        const isoWeekday = moment().day(this.day).isoWeekday()
+    _getRepeat(day) {
+        const isoWeekday = moment().day(day).isoWeekday()
         const nbDays = this.to.diff(this.from, 'days')
         let start = this.from.clone()
         let repeat = 0
@@ -64,12 +75,16 @@ export class SchedulerBuilder {
 
     build() {
         this.checks()
-        const repeat = this._getRepeat()
-        const computedDuration = 22
-        const duration = `P0Y0M${computedDuration}DT0H0M`
-        const nextWeekDay = this._getNextFromIoWeekday().clone()
-        const start = nextWeekDay.set('hour', this.hours).toISOString()
-        return `R${repeat}/${start}/${duration}`
+        const str = []
+        for (let day of this.day) {
+            const repeat = this._getRepeat(day)
+            const computedDuration = 22
+            const duration = `P0Y0M${computedDuration}DT0H0M`
+            const nextWeekDay = this._getNextFromIoWeekday(day).clone()
+            const start = nextWeekDay.set('hour', this.hours).toISOString()
+            str.push(`R${repeat}/${start}/${duration}`)
+        }
+        return str
     }
 
 
