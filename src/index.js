@@ -38,8 +38,8 @@ export class SchedulerBuilder {
         return this
     }
 
-    at(hours) {
-        this.hours = hours
+    at(time) {
+        this.time = moment(time, 'HH:mmZZ')
         return this
     }
 
@@ -57,13 +57,22 @@ export class SchedulerBuilder {
         const nbDays = this.to.diff(this.from, 'days')
         let start = this.from.clone()
         let repeat = 0
+        const d = []
         for (let i = 0; i <= nbDays; i++) {
+            d.push(start.format('DD-MM'))
             if (isoWeekday === start.isoWeekday()) {
                 repeat++
             }
             start.add(1, 'day')
         }
         return repeat
+    }
+
+    _parseTime(time) {
+        return {
+            hour: time.get('hour'),
+            minute: time.get('minute')
+        }
     }
 
     checks() {
@@ -78,10 +87,11 @@ export class SchedulerBuilder {
         const str = []
         for (let day of this.day) {
             const repeat = this._getRepeat(day)
-            const computedDuration = 22
+            const computedDuration = repeat * 7
             const duration = `P0Y0M${computedDuration}DT0H0M`
             const nextWeekDay = this._getNextFromIoWeekday(day).clone()
-            const start = nextWeekDay.set('hour', this.hours).toISOString()
+            const time = this._parseTime(this.time)
+            const start = nextWeekDay.set('hour', time.hour).set('minute', time.minute).toISOString()
             str.push(`R${repeat}/${start}/${duration}`)
         }
         return str

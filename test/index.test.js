@@ -35,7 +35,17 @@ describe('SchedulerBuilder', () => {
                 .every(DAY.MONDAY)
                 .at('14')
                 .build()
-            expect(schedule).toEqual(['R8/2018-04-16T14:00:00.000Z/P0Y0M22DT0H0M'])
+            expect(schedule).toEqual(['R8/2018-04-16T14:00:00.000Z/P0Y0M56DT0H0M'])
+        })
+
+        it('Gives the correct schedule for a single day at a specific time with minutes', () => {
+            const schedule = new SchedulerBuilder()
+                .from('2018-04-10T00:00:00Z')
+                .to('2018-06-10T00:00:00Z')
+                .every(DAY.MONDAY)
+                .at('14:30')
+                .build()
+            expect(schedule).toEqual(['R8/2018-04-16T14:30:00.000Z/P0Y0M56DT0H0M'])
         })
 
         it('Gives the correct schedule for 2 given days', () => {
@@ -48,8 +58,8 @@ describe('SchedulerBuilder', () => {
                 .at('14')
                 .build()
             expect(schedule).toEqual([
-                'R8/2018-04-16T14:00:00.000Z/P0Y0M22DT0H0M',
-                'R9/2018-04-12T14:00:00.000Z/P0Y0M22DT0H0M'
+                'R8/2018-04-16T14:00:00.000Z/P0Y0M56DT0H0M',
+                'R9/2018-04-12T14:00:00.000Z/P0Y0M63DT0H0M'
             ])
         })
 
@@ -61,11 +71,11 @@ describe('SchedulerBuilder', () => {
                 .at('14')
                 .build()
             expect(schedule).toEqual([
-                'R8/2018-04-16T14:00:00.000Z/P0Y0M22DT0H0M',
-                'R9/2018-04-10T14:00:00.000Z/P0Y0M22DT0H0M',
-                'R9/2018-04-11T14:00:00.000Z/P0Y0M22DT0H0M',
-                'R9/2018-04-12T14:00:00.000Z/P0Y0M22DT0H0M',
-                'R9/2018-04-13T14:00:00.000Z/P0Y0M22DT0H0M'
+                'R8/2018-04-16T14:00:00.000Z/P0Y0M56DT0H0M',
+                'R9/2018-04-10T14:00:00.000Z/P0Y0M63DT0H0M',
+                'R9/2018-04-11T14:00:00.000Z/P0Y0M63DT0H0M',
+                'R9/2018-04-12T14:00:00.000Z/P0Y0M63DT0H0M',
+                'R9/2018-04-13T14:00:00.000Z/P0Y0M63DT0H0M'
             ])
         })
     })
