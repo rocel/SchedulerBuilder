@@ -1,4 +1,7 @@
-import { SchedulerBuilder, DAY } from "../src";
+import {
+  SchedulerBuilder,
+  DAY
+} from "../src";
 
 describe("SchedulerBuilder", () => {
   it("initialize", () => {
@@ -104,11 +107,11 @@ describe("SchedulerBuilder", () => {
         "R9/2018-04-12T14:00:00.000Z/P0Y0M63DT0H0M",
         "R9/2018-04-13T14:00:00.000Z/P0Y0M63DT0H0M"
       ],
-      "[1, 4]" : [
+      "[1, 4]": [
         "R8/2018-04-16T14:00:00.000Z/P0Y0M56DT0H0M",
         "R9/2018-04-12T14:00:00.000Z/P0Y0M63DT0H0M"
       ],
-      "[1]" : ["R8/2018-04-16T14:30:00.000Z/P0Y0M56DT0H0M"],
+      "[1]": ["R8/2018-04-16T14:30:00.000Z/P0Y0M56DT0H0M"],
       "[1,2,3,4,5,6,7]": [
         "R8/2018-04-16T10:00:00.000Z/P0Y0M56DT0H0M",
         "R9/2018-04-10T10:00:00.000Z/P0Y0M63DT0H0M",
