@@ -8,8 +8,10 @@ export const DAY = Object.freeze({
     "FRIDAY": 5,
     "SATURDAY": 6,
     "SUNDAY": 7,
+    "WORKDAY": [1, 2, 3, 4, 5],
     "WORKDAYS": [1, 2, 3, 4, 5],
     "WEEKEND": [6, 7],
+    "DAY": [1, 2, 3, 4, 5, 6, 7],
 })
 
 export class SchedulerBuilder {
@@ -97,5 +99,9 @@ export class SchedulerBuilder {
         return str
     }
 
+    unbuild(intervals) {
+        if (!Array.isArray(intervals)) throw new TypeError('intervals must be an array of ISO8601 strings');
+        return intervals.map(interval => moment(interval.split('/')[1]).isoWeekday());
+    }
 
 }
