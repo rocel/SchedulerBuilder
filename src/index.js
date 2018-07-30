@@ -21,12 +21,12 @@ export class SchedulerBuilder {
   }
 
   from(from) {
-    this.from = moment(from).utc().startOf('day')
+    this.from = moment.utc(from).startOf('day')
     return this
   }
 
   to(to) {
-    this.to = moment(to).utc().endOf('day')
+    this.to = moment.utc(to).endOf('day')
     return this
   }
 
