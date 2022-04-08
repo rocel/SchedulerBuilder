@@ -40,7 +40,7 @@
     "generator-nod"
   ],
   "dependencies": {
-    "moment": "^2.22.0"
+    "moment": "^2.29.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
